@@ -1,4 +1,4 @@
-Pitt INFSCI 2701 Project Backend
+Pitt INFSCI 2710 Project Backend
 ===
 
 PittMoments!
