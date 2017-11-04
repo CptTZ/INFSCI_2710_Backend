@@ -15,6 +15,16 @@ Assuming you have **python3** and **pip** installed, and **Python3** has been se
 
 ```python -m pip install -r requirements.txt```
 
-2. Ready to GO!
+2. Migration database (Tmp solution)
+
+```python manage.py migrate```
+
+3. Create the first superuser
+
+Input whatever you like, leave blank for email, just have to remember that...
+
+```python manage.py createsuperuser```
+
+4. Ready to GO!
 
 ```python manage.py runserver```
