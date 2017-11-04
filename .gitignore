@@ -188,6 +188,7 @@ coverage.xml
 *.pot
 
 # Django stuff:
+db.sqlite3
 *.log
 .static_storage/
 .media/
