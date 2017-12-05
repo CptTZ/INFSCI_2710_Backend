@@ -4,12 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Chat extends Model
+class ChatContent extends Model
 {
-    protected $table = 'Chats';
-    protected $primaryKey = ['chatID'];
+    protected $table = 'ChatContents';
+    protected $primaryKey = ['ccid'];
     public $timestamps = false;
-    protected $fillable = ['userID1', 'userID2'];
+    protected $fillable = ['chatID', 'contents', 'timestamp'];
     protected $guarded = [];
     protected $hidden = [];
     protected $casts = ['options' => 'json'/*, 'status' => 'bool'*/];

@@ -15,7 +15,7 @@ class Chats extends Migration
     {
         Schema::create('chats',function(Blueprint $table){
             $table->engine = 'InnoDB';
-            $table->primary(['userID1', 'userID2']);
+            $table->bigIncrements('chatID');
             $table->string('userID1')->unsigned();
             $table->foreign('userID1')
                 ->references('userID')->on('users')
@@ -24,8 +24,6 @@ class Chats extends Migration
             $table->foreign('userID2')
                 ->references('userID')->on('users')
                 ->onDelete('cascade')->onUpdate('cascade');
-            $table->longText('contents');
-            $table->dateTime('timestamp');
         });
     }
 
