@@ -26,7 +26,8 @@ Route::namespace('Back')->group(function () {
     Route::name('register')->post('/register', 'MainController@register');
     Route::name('post')->post('/post', 'PostController@post');
     Route::name('getPost')->get('main/{userID}', 'PostController@getPosts');
-    Route::name('getAvatar')->get('/my/{userID}', '');
+    Route::name('getStat')->get('/admin', 'AdminController@getStat');
+    Route::name('getUsers')->get('/admin/users', 'AdminController@getUsers');
 });
 
 // welcome

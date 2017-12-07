@@ -26,28 +26,6 @@ class PostController extends Controller
         $filename = $request->input('filename');
         if ($pic_id != null && $filename != null) {
             $pic_id = $this->base64_to_img($pic_id, public_path() . '/images/', $filename);
-            /*$validator = Validator::make($request->all(), [
-                'file' => 'required|image'
-            ]);
-            if ($validator->fails()) {
-                Response::json([
-                    'status' => 403,
-                    'message' => $validator->errors()
-                ]);
-                echo 'fail to upload image'; // debug
-            } else {
-                $file = $request->file('file');//获取文件
-                $fileName = md5(time() . rand(0, 10000)) . '.' . $file->getClientOriginalName();//随机名称+获取客户的原始名称
-                $savePath = 'public/images/' . $fileName;//存储到指定文件，例如image/.filename public/.filename
-                Storage::put($savePath, File::get($file));//通过Storage put方法存储   File::get获取到的是文件内容
-                if (Storage::exists($savePath)) {
-                    Image::create([
-                        'user_id' => $request->input('userID'),
-                        'pic_id' => $savePath
-                    ]);
-                    $pic_id = $savePath;
-                }
-            }*/
         }
         DB::table('posts')->insert(
             ['userID' => $request->input('userID'),
@@ -61,11 +39,10 @@ class PostController extends Controller
     }
 
     /**
-     * base64字符串转换成图片
-     * @param string $base64_string base64字符串
-     * @param unknown $path 图片保存路径
-     * @param string $prefix 图片前缀
-     * @return boolean
+     * @param string $base64_string
+     * @param $path public/images/
+     * @param $filename original filename
+     * @return path in db
      */
     public function base64_to_img($base64_string, $path, $filename)
     {
