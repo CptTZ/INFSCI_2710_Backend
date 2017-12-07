@@ -11,23 +11,48 @@
 |
 */
 
-// Home
-
-//Route::name('home')->get('/', 'Back\MainController@mainpage');
-
-//Route::post('/login', 'Back\MainController@login');
-//Route::post('/register', 'Back\MainController@register');
-// Posts
-//Route::post('/post', 'Back\PostController@post');
-//Route::get('/index/{userID}', 'Back\PostController@getPosts');
-
+// login, register
 Route::namespace('Back')->group(function () {
     Route::name('login')->post('/login', 'MainController@login');
     Route::name('register')->post('/register', 'MainController@register');
-    Route::name('post')->post('/post', 'PostController@post');
-    Route::name('getPost')->get('main/{userID}', 'PostController@getPosts');
-    Route::name('getStat')->get('/admin', 'AdminController@getStat');
-    Route::name('getUsers')->get('/admin/users', 'AdminController@getUsers');
+});
+// post, getPost
+Route::prefix('post')->namespace('Back')->group(function () {
+    Route::name('post')->post('/', 'PostController@post');
+    Route::name('getPost')->get('/{userID}', 'PostController@getPosts');
+});
+// comment
+Route::prefix('comment')->namespace('Back')->group(function () {
+    Route::name('comment')->post('/', 'CommentController@comment');
+});
+// like
+Route::prefix('like')->namespace('Back')->group(function () {
+//    Route::name('like')->post('/', 'LikeController@like');
+});
+// collection
+Route::prefix('collection')->namespace('Back')->group(function () {
+//    Route::name('collect')->post('/collect', 'CollectionController@collect');
+//    Route::name('getCollections')->get('/getCollections', 'CollectionController@getCollections');
+//    Route::name('removeCollection')->post('/removeCollection', 'CollectionController@removeCollection');
+});
+// admin dashboard
+Route::prefix('admin')->namespace('Back')->group(function () {
+    Route::name('getStat')->get('/', 'AdminController@getStat');
+    Route::name('getUsers')->get('/users', 'AdminController@getUsers');
+    Route::name('getPosts')->get('/posts', 'AdminController@getPosts');
+    Route::name('getReports')->get('/reports', 'AdminController@getReports');
+    Route::name('blockOrRecoverUsers')->post('/blockOrRecoverUsers', 'AdminController@blockOrRecoverUsers');
+    Route::name('deletePosts')->post('/deletePosts', 'AdminController@deletePosts');
+});
+// report
+Route::prefix('reportPosts')->namespace('Back')->group(function () {
+    Route::name('reportPosts')->post('/', 'ReportController@reportPosts');
+});
+// personal setting
+Route::prefix('personal')->namespace('Back')->group(function () {
+    Route::name('personal')->post('/info', 'PersonalController@modifyPersonalInfo');
+    Route::name('whatsup')->post('/whatsup', 'PersonalController@modifyWhatsup');
+    Route::name('avatar')->post('/avatar', 'PersonalController@modifyAvatar');
 });
 
 // welcome

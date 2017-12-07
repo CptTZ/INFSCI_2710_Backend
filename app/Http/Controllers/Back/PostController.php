@@ -25,7 +25,7 @@ class PostController extends Controller
         $pic_id = $request->input('pic_id');
         $filename = $request->input('filename');
         if ($pic_id != null && $filename != null) {
-            $pic_id = $this->base64_to_img($pic_id, public_path() . '/images/', $filename);
+            $pic_id = $this->base64_to_img($pic_id, '/images/posts/', $filename);
         }
         DB::table('posts')->insert(
             ['userID' => $request->input('userID'),
@@ -40,20 +40,20 @@ class PostController extends Controller
 
     /**
      * @param string $base64_string
-     * @param $path public/images/
+     * @param $path /images/ or /images/avatars
      * @param $filename original filename
      * @return path in db
      */
     public function base64_to_img($base64_string, $path, $filename)
     {
         $output_file = md5(time() . rand(0, 10000)) . '.' . $filename;
-        $path = $path . $output_file;
-        $ifp = fopen($path, "wb");
+        $absPath = public_path() . $path . $output_file;
+        $ifp = fopen($absPath, "wb");
         fwrite($ifp, base64_decode($base64_string));
         fclose($ifp);
-        return '/images/' . $output_file;
+        return $path . $output_file;
     }
-
+    // exclude blocked posts and blocked users' posts
     public function getPosts($uid)
     {
         $results = DB::select('SELECT

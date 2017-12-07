@@ -14,6 +14,10 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         '/login',
         '/register',
-        '/post'
+        '/post',
+        '/admin/blockOrRecoverUsers',
+        '/admin/deletePosts',
+        '/reportPosts',
+        '/personal/*'
     ];
 }
