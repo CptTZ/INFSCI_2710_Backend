@@ -23,8 +23,10 @@ class PostController extends Controller
     public function post(Request $request)
     {
         $pic_id = $request->input('pic_id');
-        if ($pic_id != null) {
-            $validator = Validator::make($request->all(), [
+        $filename = $request->input('filename');
+        if ($pic_id != null && $filename != null) {
+            $pic_id = $this->base64_to_img($pic_id, public_path() . '/images/', $filename);
+            /*$validator = Validator::make($request->all(), [
                 'file' => 'required|image'
             ]);
             if ($validator->fails()) {
@@ -36,7 +38,7 @@ class PostController extends Controller
             } else {
                 $file = $request->file('file');//获取文件
                 $fileName = md5(time() . rand(0, 10000)) . '.' . $file->getClientOriginalName();//随机名称+获取客户的原始名称
-                $savePath = 'app/Images/' . $fileName;//存储到指定文件，例如image/.filename public/.filename
+                $savePath = 'public/images/' . $fileName;//存储到指定文件，例如image/.filename public/.filename
                 Storage::put($savePath, File::get($file));//通过Storage put方法存储   File::get获取到的是文件内容
                 if (Storage::exists($savePath)) {
                     Image::create([
@@ -45,7 +47,7 @@ class PostController extends Controller
                     ]);
                     $pic_id = $savePath;
                 }
-            }
+            }*/
         }
         DB::table('posts')->insert(
             ['userID' => $request->input('userID'),
@@ -56,6 +58,23 @@ class PostController extends Controller
             'status' => 200,
             'data' => []
         ]);
+    }
+
+    /**
+     * base64字符串转换成图片
+     * @param string $base64_string base64字符串
+     * @param unknown $path 图片保存路径
+     * @param string $prefix 图片前缀
+     * @return boolean
+     */
+    public function base64_to_img($base64_string, $path, $filename)
+    {
+        $output_file = md5(time() . rand(0, 10000)) . '.' . $filename;
+        $path = $path . $output_file;
+        $ifp = fopen($path, "wb");
+        fwrite($ifp, base64_decode($base64_string));
+        fclose($ifp);
+        return '/images/' . $output_file;
     }
 
     public function getPosts($uid)
@@ -82,70 +101,5 @@ class PostController extends Controller
             'status' => 200,
             'data' => $results
         ]);
-    }
-
-    public function info($id)
-    {
-        return Post::getPost();
-        // return route('maininfo');
-        // return 'id = ' . $id;
-        /*return view('mainpage/info',[
-            'name' => 'Eason',
-            'age' => 18,
-            'id' => $id
-        ]);*/
-    }
-
-    /*public function test()
-    {
-        $user = DB::select('select * from users');
-        dd($user);
-    }*/
-    public function test()
-    {
-        $user = User::all();
-        dd($user);
-
-//        $user = User::find(1);
-//        dd($user);
-
-//        $user = User::get();
-//        dd($user);
-
-//        $user = User::where('id', '>=', '1')->orderBy('id', 'desc')->first();
-//        dd($user);
-
-        //chunk
-//        echo '<pre>';
-//        User::chunk(2, function ($user){
-//            dd($user);
-//        });
-
-        //aggregate
-//        $num = User::count();
-//        $max = User::where('id', '>=', 1)->max('password');
-//        dd($max);
-    }
-
-    public function orm2()
-    {
-        // model
-//        $user = new User();
-//        $user->name='Sean';
-//        $user->email='@';
-//        $user->password='123';
-//        $bool = $user->save();
-//        dd($user);
-
-//        $user = User::find(2);
-//        echo date('Y-m-d H:i:s', $user->created_at);
-
-        // create method
-//        $user = User::create([
-//            'name' => 'im',
-//            'email' => 'gm',
-//            'password' => '0',
-//        ]);
-//        dd($user);
     }
 }

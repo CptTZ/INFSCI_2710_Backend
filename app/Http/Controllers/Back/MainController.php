@@ -81,7 +81,8 @@ class MainController extends Controller
 
     public function info($id)
     {
-        return Post::getPost();
+//        return Post::getPost();
+        return $id;
         // return route('maininfo');
         // return 'id = ' . $id;
         /*return view('mainpage/info',[
