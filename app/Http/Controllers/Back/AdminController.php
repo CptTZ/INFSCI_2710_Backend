@@ -29,7 +29,7 @@ class AdminController extends Controller
                 ['is_active', 0]
             ])->get();
         $countPosts = DB::select('SELECT count(*) AS posts from posts');
-        $countComments = DB::select('SELECT count(*) AS comments from comments');
+        $countComments = DB::select('SELECT count(*) AS reports from reports');
         return response()->json([
             'status' => 200,
             'data' => array($countUsers[0], $countBlockedUsers[0], $countPosts[0], $countComments[0])]);
