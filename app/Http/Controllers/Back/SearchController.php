@@ -10,28 +10,48 @@ use Illuminate\Support\Facades\ {
 };
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use function MongoDB\BSON\toJSON;
 
 class SearchController extends Controller
 {
-    public function search($keyword)
+    public function search($userID, $keyword)
     {
         $users = DB::select('SELECT
                             userID
                             FROM
                             users u
                             WHERE
-                            userID like \'%:keyword%\'
+                            (userID like :keyword
                             OR
-                            email like \'%:keyword%\'
+                            email like :keyword
                             OR
-                            nickname like \'%:keyword%\'
+                            nickname like :keyword
                             OR
-                            firstname like \'%:keyword%\'
+                            firstname like :keyword
                             OR
-                            lastname like \'%:keyword%\'', ['keyword' => $keyword]);
+                            lastname like :keyword)
+                            AND
+                            userID != :userNow', ['keyword' => '%' . $keyword . '%',
+            'userNow' => $userID]);
+        $arrays = array();
+        foreach ($users as $user) {
+            $array = get_object_vars($user);
+            $if_followed = DB::select('SELECT
+                            COUNT(*) AS if_followed
+                            FROM
+                            relations
+                            WHERE
+                            follower_userID = :userNow
+                            AND
+                            followed_userID = :ee_user', ['userNow' => $userID,
+                'ee_user' => $array['userID']])[0];
+            $arr = array($array, $if_followed);
+            $json = json_encode($arr);
+            array_push($arrays, $json);
+        }
         return response()->json([
             'status' => 200,
-            'data' => $users
+            'data' => $arrays
         ]);
     }
 }

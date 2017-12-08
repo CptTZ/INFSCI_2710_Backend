@@ -63,7 +63,7 @@ Route::prefix('my')->namespace('Back')->group(function () {
 });
 // search
 Route::prefix('search')->namespace('Back')->group(function () {
-    Route::name('search')->get('/{keyword}', 'SearchController@search');
+    Route::name('search')->get('/{userID}&{keyword}', 'SearchController@search');
 });
 
 // welcome
