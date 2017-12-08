@@ -60,6 +60,7 @@ class PostController extends Controller
         $results = DB::select('SELECT
                                 pid,
                                 p.userID,
+                                u.nickname,
                                 contents,
                                 pic_id,
                                 timestamp,
