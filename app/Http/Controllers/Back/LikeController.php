@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Back;
 
 use App\{
-    Http\Controllers\Controller, Models\Comment
+    Http\Controllers\Controller
 };
 use Illuminate\Support\Facades\ {
     DB,
@@ -12,14 +12,13 @@ use Illuminate\Support\Facades\ {
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
-class CommentController extends Controller
+class LikeController extends Controller
 {
-    public function comment(Request $request)
+    public function like(Request $request)
     {
-        DB::table('comments')->insert(
+        DB::table('likes')->insert(
             ['pid' => $request->input('pid'),
                 'userID' => $request->input('userID'),
-                'contents' => $request->input('contents'),
                 'timestamp' => Carbon::now(-4)->format('Y-m-d H:i:s')]);
         return response()->json([
             'status' => 200,
@@ -27,12 +26,15 @@ class CommentController extends Controller
         ]);
     }
 
-    public function getCommentByPid($pid)
+    public function cancelLike(Request $request)
     {
-        $comments = DB::select('SELECT * FROM comments WHERE pid = :pid', ['pid' => $pid]);
+        DB::table('likes')->whereColumn([
+            ['pid', $request->input('pid')],
+            ['userID', $request->input('userID')]])
+            ->delete();
         return response()->json([
             'status' => 200,
-            'data' => $comments
+            'data' => []
         ]);
     }
 }

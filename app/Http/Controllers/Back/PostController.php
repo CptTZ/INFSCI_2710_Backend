@@ -53,11 +53,12 @@ class PostController extends Controller
         fclose($ifp);
         return $path . $output_file;
     }
+
     // exclude blocked posts and blocked users' posts
     public function getPosts($uid)
     {
         $results = DB::select('SELECT
-                                pid,
+                                DISTINCT pid,
                                 userID,
                                 contents,
                                 pic_id,
@@ -69,11 +70,13 @@ class PostController extends Controller
                                     WHERE follower_userID = :userID AND if_notify = 1
                                     ) AS r
                                 WHERE
+                                userID = :userID OR
                                 userID = r.ee
                                 AND
                                 pid NOT IN (SELECT b.pid
                                     FROM blocks b
-                                    WHERE b.userID = :userID)', ['userID' => $uid]);
+                                    WHERE b.userID = :userID)
+                                ORDER BY timestamp DESC', ['userID' => $uid]);
         return response()->json([
             'status' => 200,
             'data' => $results

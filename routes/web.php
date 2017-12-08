@@ -16,7 +16,7 @@ Route::namespace('Back')->group(function () {
     Route::name('login')->post('/login', 'MainController@login');
     Route::name('register')->post('/register', 'MainController@register');
 });
-// post, getPost
+// post
 Route::prefix('post')->namespace('Back')->group(function () {
     Route::name('post')->post('/', 'PostController@post');
     Route::name('getPost')->get('/{userID}', 'PostController@getPosts');
@@ -24,16 +24,22 @@ Route::prefix('post')->namespace('Back')->group(function () {
 // comment
 Route::prefix('comment')->namespace('Back')->group(function () {
     Route::name('comment')->post('/', 'CommentController@comment');
+    Route::name('getCommentByPid')->get('/{pid}', 'CommentController@getCommentByPid');
 });
 // like
 Route::prefix('like')->namespace('Back')->group(function () {
-//    Route::name('like')->post('/', 'LikeController@like');
+    Route::name('like')->post('/', 'LikeController@like');
+    Route::name('cancelLike')->post('/cancel', 'LikeController@cancelLike');
+});
+// Relation
+Route::namespace('Back')->group(function () {
+    Route::name('follow')->post('/follow', 'RelationController@follow');
+    Route::name('unfollow')->post('/unfollow', 'RelationController@unfollow');
 });
 // collection
-Route::prefix('collection')->namespace('Back')->group(function () {
-//    Route::name('collect')->post('/collect', 'CollectionController@collect');
-//    Route::name('getCollections')->get('/getCollections', 'CollectionController@getCollections');
-//    Route::name('removeCollection')->post('/removeCollection', 'CollectionController@removeCollection');
+Route::namespace('Back')->group(function () {
+    Route::name('collect')->post('/collect', 'CollectionController@collect');
+    Route::name('getCollections')->get('/getCollections/{userID}', 'CollectionController@getCollections');
 });
 // admin dashboard
 Route::prefix('admin')->namespace('Back')->group(function () {

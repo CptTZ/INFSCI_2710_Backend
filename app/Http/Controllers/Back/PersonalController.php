@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 
 class PersonalController extends Controller
 {
+    // get my info by userID
     public function getUserInfo($uid)
     {
         $users = User::select(DB::raw('userID, nickname, firstname, lastname,
@@ -27,7 +28,7 @@ class PersonalController extends Controller
         ]);
     }
 
-    // except password, whatsup, avatar
+    // except whatsup, avatar
     public function modifyPersonalInfo(Request $request)
     {
         $pwd = $request->input('passwd');
