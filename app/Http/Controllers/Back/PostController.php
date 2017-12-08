@@ -93,7 +93,7 @@ class PostController extends Controller
                             userID = :userID', ['pid' => $array['pid'],
                 'userID' => $uid])[0];
             $arr = array($array, $if_liked);
-            $json = json_encode($arr);
+            $json = $arr;
             array_push($arrays, $json);
         }
         return response()->json([
