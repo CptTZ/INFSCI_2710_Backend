@@ -21,7 +21,10 @@ class PersonalController extends Controller
             ->whereColumn([
                 ['userID', $uid]
             ])->get();
-        return $users;
+        return response()->json([
+            'status' => 200,
+            'data' => $users
+        ]);
     }
 
     // except password, whatsup, avatar
