@@ -21,7 +21,7 @@ class Users extends Migration
             $table->string('nickname', 20)->nullable();
             $table->string('firstname', 20)->nullable();
             $table->string('lastname', 20)->nullable();
-            $table->enum('gender',['Male','Female','Not Specified'])->default('Not Specified');
+            $table->enum('gender',['0','1','2'])->default('2');
             $table->date('DOB')->nullable();
             $table->string('whatsup', 50)->nullable();
             $table->string('avatar')->nullable();
