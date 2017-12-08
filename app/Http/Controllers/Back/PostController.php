@@ -64,14 +64,12 @@ class PostController extends Controller
                                 pic_id,
                                 timestamp
                                 FROM
-                                posts,
-                                (SELECT r.followed_userID AS ee
-                                    FROM relations r
-                                    WHERE follower_userID = :userID AND if_notify = 1
-                                    ) AS r
+                                posts
                                 WHERE
                                 userID = :userID OR
-                                userID = r.ee
+                                userID IN (SELECT r.followed_userID AS ee
+                                            FROM relations r
+                                            WHERE follower_userID = :userID AND if_notify = 1)
                                 AND
                                 pid NOT IN (SELECT b.pid
                                     FROM blocks b
