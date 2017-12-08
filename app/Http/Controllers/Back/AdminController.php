@@ -25,13 +25,13 @@ class AdminController extends Controller
      */
     public function getStat(Request $request)
     {
-        $countUsers = User::select(DB::raw('count(*) AS countUsers'))->get();
-        $countBlockedUsers = User::select(DB::raw('count(*) AS countBlockedUsers'))
+        $countUsers = User::select(DB::raw('count(*) AS users'))->get();
+        $countBlockedUsers = User::select(DB::raw('count(*) AS blockedusers'))
             ->whereColumn([
                 ['is_active', 0]
             ])->get();
-        $countPosts = DB::select('SELECT count(*) from posts');
-        $countComments = DB::select('SELECT count(*) from comments');
+        $countPosts = DB::select('SELECT count(*) AS posts from posts');
+        $countComments = DB::select('SELECT count(*) AS comments from comments');
         return response()->json([
             'status' => 200,
             'data' => array($countUsers[0], $countBlockedUsers[0], $countPosts[0], $countComments[0])]);
