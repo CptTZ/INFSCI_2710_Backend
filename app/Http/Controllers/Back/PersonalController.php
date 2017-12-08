@@ -35,7 +35,6 @@ class PersonalController extends Controller
             ->update(['nickname' => $request->input('nickname'),
                 'firstname' => $request->input('firstname'),
                 'lastname' => $request->input('lastname'),
-                'DOB' => $request->input('DOB'),
                 'email' => $request->input('email')]);
         return response()->json([
             'status' => 200,
