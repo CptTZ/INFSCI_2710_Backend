@@ -48,8 +48,9 @@ Route::prefix('admin')->namespace('Back')->group(function () {
 Route::prefix('reportPosts')->namespace('Back')->group(function () {
     Route::name('reportPosts')->post('/', 'ReportController@reportPosts');
 });
-// personal setting
-Route::prefix('personal')->namespace('Back')->group(function () {
+// personal info and settings
+Route::prefix('my')->namespace('Back')->group(function () {
+    Route::name('myinfo')->get('/{userID}', 'PersonalController@getUserInfo');
     Route::name('personal')->post('/info', 'PersonalController@modifyPersonalInfo');
     Route::name('whatsup')->post('/whatsup', 'PersonalController@modifyWhatsup');
     Route::name('avatar')->post('/avatar', 'PersonalController@modifyAvatar');

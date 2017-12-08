@@ -14,6 +14,16 @@ use Illuminate\Http\Request;
 
 class PersonalController extends Controller
 {
+    public function getUserInfo($uid)
+    {
+        $users = User::select(DB::raw('userID, nickname, firstname, lastname,
+        gender, DOB, whatsup, avatar, email, created_at, updated_at'))
+            ->whereColumn([
+                ['userID', $uid]
+            ])->get();
+        return $users;
+    }
+
     // except password, whatsup, avatar
     public function modifyPersonalInfo(Request $request)
     {
