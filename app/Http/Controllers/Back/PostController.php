@@ -87,7 +87,7 @@ class PostController extends Controller
         }
         return response()->json([
             'status' => 200,
-            'data' => (object)$arrays
+            'data' => array_values($arrays)
         ]);
     }
 }
