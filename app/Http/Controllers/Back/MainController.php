@@ -71,6 +71,8 @@ class MainController extends Controller
                 'gender' => $request->input('gender'),
                 'DOB' => $request->input('DOB'),
                 'email' => $request->input('email'),
+                'whatsup' => 'Nothing...',
+                'avatar' => '/images/avatars/noavatar.gif',
                 'created_at' => Carbon::now(-4)->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now(-4)->format('Y-m-d H:i:s')]);
         return response()->json([
