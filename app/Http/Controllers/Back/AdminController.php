@@ -4,9 +4,7 @@ namespace App\Http\Controllers\Back;
 
 use App\ {
     Http\Controllers\Controller,
-    Models\User,
-    Models\Post,
-    Models\Comment
+    Models\User
 };
 use Illuminate\Support\Facades\ {
     DB,

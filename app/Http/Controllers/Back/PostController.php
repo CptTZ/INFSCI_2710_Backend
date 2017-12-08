@@ -58,16 +58,19 @@ class PostController extends Controller
     public function getPosts($uid)
     {
         $results = DB::select('SELECT
-                                DISTINCT pid,
-                                userID,
+                                pid,
+                                p.userID,
                                 contents,
                                 pic_id,
-                                timestamp
+                                timestamp,
+                                u.avatar
                                 FROM
-                                posts
+                                users u
+                                JOIN
+                                posts p ON u.userID = p.userID
                                 WHERE
-                                userID = :userID OR
-                                userID IN (SELECT r.followed_userID AS ee
+                                p.userID = :userID OR
+                                p.userID IN (SELECT r.followed_userID AS ee
                                             FROM relations r
                                             WHERE follower_userID = :userID AND if_notify = 1)
                                 AND

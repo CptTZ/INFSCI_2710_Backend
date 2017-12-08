@@ -10,7 +10,7 @@ class User extends Model
     protected $primaryKey = ['userID'];
     public $incrementing = false;
     public $timestamps = true;
-    protected $fillable = ['userID', 'password', 'name', 'email',
+    protected $fillable = ['userID', 'password', 'email',
         'nickname', 'firstname', 'lastname', 'gender', 'DOB',
         'whatsup', 'avatar', 'created_at', 'updated_at'];
     protected $guarded = ['is_active', 'is_admin'];

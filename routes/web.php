@@ -61,6 +61,10 @@ Route::prefix('my')->namespace('Back')->group(function () {
     Route::name('whatsup')->post('/whatsup', 'PersonalController@modifyWhatsup');
     Route::name('avatar')->post('/avatar', 'PersonalController@modifyAvatar');
 });
+// search
+Route::prefix('search')->namespace('Back')->group(function () {
+    Route::name('search')->get('/{keyword}', 'SearchController@search');
+});
 
 // welcome
 Route::get('/', function () {
