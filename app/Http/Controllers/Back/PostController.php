@@ -79,9 +79,26 @@ class PostController extends Controller
                                     FROM blocks b
                                     WHERE b.userID = :userID)
                                 ORDER BY timestamp DESC', ['userID' => $uid]);
+
+        $arrays = array();
+        foreach ($results as $result) {
+            $array = get_object_vars($result);
+            $if_liked = DB::select('SELECT
+                            COUNT(*) AS if_liked
+                            FROM
+                            likes
+                            WHERE
+                            pid = :pid
+                            AND
+                            userID = :userID', ['pid' => $array['pid'],
+                'userID' => $uid])[0];
+            $arr = array($array, $if_liked);
+            $json = json_encode($arr);
+            array_push($arrays, $json);
+        }
         return response()->json([
             'status' => 200,
-            'data' => $results
+            'data' => $arrays
         ]);
     }
 }
