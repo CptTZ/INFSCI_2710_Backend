@@ -18,6 +18,7 @@ class VerifyCsrfToken extends Middleware
         '/admin/blockOrRecoverUsers',
         '/admin/deletePosts',
         '/reportPosts',
-        '/personal/*'
+        '/personal/*',
+        '/my/*'
     ];
 }

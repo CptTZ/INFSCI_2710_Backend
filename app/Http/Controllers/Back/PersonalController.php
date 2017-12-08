@@ -30,13 +30,23 @@ class PersonalController extends Controller
     // except password, whatsup, avatar
     public function modifyPersonalInfo(Request $request)
     {
-        DB::table('users')
+        $pwd = $request->input('passwd');
+        if($pwd == '') {
+            DB::table('users')
             ->where('userID', $request->input('userID'))
             ->update(['nickname' => $request->input('nickname'),
                 'firstname' => $request->input('firstname'),
                 'lastname' => $request->input('lastname'),
-                'password' => $request->input('passwd'),
                 'email' => $request->input('email')]);
+        } else {
+            DB::table('users')
+            ->where('userID', $request->input('userID'))
+            ->update(['nickname' => $request->input('nickname'),
+                'firstname' => $request->input('firstname'),
+                'lastname' => $request->input('lastname'),
+                'password' => $pwd,
+                'email' => $request->input('email')]);
+        }
         return response()->json([
             'status' => 200,
             'data' => []
