@@ -70,9 +70,24 @@ class PostController extends Controller
                                 JOIN
                                 posts p ON u.userID = p.userID
                                 ORDER BY p.timestamp DESC');
+        $arrays = array();
+        foreach ($results as $result) {
+            $array = get_object_vars($result);
+            $if_liked = DB::select('SELECT
+                            COUNT(*) AS if_liked
+                            FROM
+                            likes
+                            WHERE
+                            pid = :pid
+                            AND
+                            userID = :userID', ['pid' => $array['pid'],
+                'userID' => $uid])[0];
+            $arr = array($array, $if_liked);
+            array_push($arrays, $arr);
+        }
         return response()->json([
             'status' => 200,
-            'data' => $results
+            'data' => $arrays
         ]);
     }
 }
