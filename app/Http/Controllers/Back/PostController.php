@@ -69,16 +69,7 @@ class PostController extends Controller
                                 users u
                                 JOIN
                                 posts p ON u.userID = p.userID
-                                WHERE
-                                p.userID = :userID OR
-                                p.userID IN (SELECT r.followed_userID AS ee
-                                            FROM relations r
-                                            WHERE follower_userID = :userID AND if_notify = 1)
-                                AND
-                                pid NOT IN (SELECT b.pid
-                                    FROM blocks b
-                                    WHERE b.userID = :userID)
-                                ORDER BY timestamp DESC', ['userID' => $uid]);
+                                ORDER BY p.timestamp DESC');
         return response()->json([
             'status' => 200,
             'data' => $results
